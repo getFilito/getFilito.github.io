@@ -1,4 +1,4 @@
-# IPFS + FEVM Search
+# IPFS + FEVM = Decentralized Search
 
 <img alt="Get image metadata on a web page" src="https://github.com/getFilito/getFilito.github.io/raw/main/public/scr/Screenshot2.png" />
 
