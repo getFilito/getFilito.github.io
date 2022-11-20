@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "alt": "Moby Dick",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9lAWy_ljsR93XiE1L__I9zOM0v9vRsFqZLZRCpxok&s"
+  },
+  {
+    "id": 2,
+    "alt": "Zen and the Art of Motorcycle Maintenance",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ38XD8NcbrFKwj_gwrWVjPLpBG4EZGGvFYY_6o09D48KDU0CPgtOh5eLQK&s"
+  },
+  {
+    "id": 3,
+    "alt": "Neuromancer",
+    "image": "https://upload.wikimedia.org/wikipedia/en/4/4b/Neuromancer_%28Book%29.jpg"
+  }
+]
