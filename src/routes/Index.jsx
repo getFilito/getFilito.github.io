@@ -1,6 +1,18 @@
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useNetwork, useSwitchNetwork } from "wagmi";
-import { Input, Image, Button } from "@mantine/core";
+import {
+  Input,
+  Image,
+  Button,
+  SimpleGrid,
+  HoverCard,
+  Box,
+  Center,
+  Text,
+  Tooltip,
+} from "@mantine/core";
+
+import { Link } from "react-router-dom";
 
 import MiniSearch from "minisearch";
 import axios from "axios";
@@ -9,6 +21,7 @@ import { BigNumber } from "ethers";
 import { useContractInfiniteReads, paginatedIndexesConfig } from "wagmi";
 import abiFilito from "./abiFilito.json";
 import { useEffect, useState } from "react";
+import { IconPhotoSearch, IconReload, IconPhotoPlus } from "@tabler/icons";
 
 let miniSearch = new MiniSearch({
   fields: ["alt"], // fields to index for full-text search
@@ -30,7 +43,7 @@ export default function Index() {
   } = useSwitchNetwork();
 
   const [search, setSearch] = useState("");
-  const [results, setResults] = useState([]);
+  const [images, setImages] = useState([]);
 
   const filitoContractConfig = {
     address: "0x293D3f976EF14b75DC4687AF25EC1B526bF68F60",
@@ -92,73 +105,152 @@ export default function Index() {
   }, [data]);
 
   useEffect(() => {
-    let results = miniSearch.search(search);
-    console.log("results", search, results);
-    setResults(results);
+    let images = miniSearch.search(search);
+    console.log("images", search, images);
+    setImages(images);
   }, [search]);
 
-  if (isConnected) {
+  if (isConnected && !chain?.unsupported) {
     return (
-      <div>
-        <Input
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-        ></Input>
-        <Button onClick={fetchNextPage}>+</Button>
-        {results &&
-          results.map((image, i) => {
-            return (
-              <Image
-                key={i}
-                width={200}
-                height={80}
-                fit="contain"
-                radius="md"
-                src={image.image}
-              ></Image>
-            );
-          })}
-        <div>{address}</div>
-        <div>Connected to {connector?.name}</div>
-        <button onClick={disconnect}>Disconnect</button>
-        <>
-          {chain && <div>Connected to {chain.name}</div>}
-
-          {chains.map((x) => (
-            <button
-              disabled={!switchNetwork || x.id === chain?.id}
-              key={x.id}
-              onClick={() => switchNetwork?.(x.id)}
+      <Box>
+        <Box m={60}>
+          <Box m={40}>
+            <Text
+              variant="gradient"
+              gradient={{ from: "indigo", to: "green", deg: 45 }}
+              sx={{ fontFamily: "Sono, sans-serif" }}
+              ta="center"
+              fz="xl"
+              fw={700}
+              style={{ margin: 0, padding: 0, fontSize: "100px" }}
             >
-              {x.name}
-              {isLoading && pendingChainId === x.id && " (switching)"}
-            </button>
-          ))}
+              Filito
+            </Text>
+          </Box>
+          <Center>
+            <Input
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              icon={<IconPhotoSearch />}
+              placeholder="Search"
+              size="xl"
+              style={{ width: "50%" }}
+            ></Input>
+            <Button
+              onClick={fetchNextPage}
+              ml={5}
+              size="xl"
+              variant="gradient"
+              gradient={{ from: "indigo", to: "cyan" }}
+            >
+              <IconReload />
+            </Button>
+          </Center>
+        </Box>
 
-          <div>{error && error.message}</div>
-        </>
-      </div>
+        {images && images.length ? (
+          <SimpleGrid cols={4}>
+            {images.map((image, i) => {
+              return (
+                <div
+                  key={i}
+                  style={{
+                    width: 240,
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <HoverCard width={240} shadow="md">
+                    <HoverCard.Target>
+                      <Image radius="md" src={image.image} alt={image.alt} />
+                    </HoverCard.Target>
+                    <HoverCard.Dropdown>
+                      <Text size="sm">{image.alt}</Text>
+                    </HoverCard.Dropdown>
+                  </HoverCard>
+                </div>
+              );
+            })}
+          </SimpleGrid>
+        ) : (
+          <Box m={40}>
+            <Center>
+              <Tooltip label="Add to Index">
+                <Link to={`/add`}>
+                  <Button
+                    onClick={fetchNextPage}
+                    ml={5}
+                    size="xl"
+                    variant="light"
+                  >
+                    <IconPhotoPlus />
+                  </Button>
+                </Link>
+              </Tooltip>
+            </Center>
+          </Box>
+        )}
+      </Box>
     );
   }
 
   return (
-    <div>
-      {connectors.map((connector) => (
-        <button
-          disabled={!connector?.ready}
-          key={connector?.id}
-          onClick={() => connect({ connector })}
-        >
-          {connector?.name}
-          {!connector?.ready && " (unsupported)"}
-          {isLoading &&
-            connector?.id === pendingConnector?.id &&
-            " (connecting)"}
-        </button>
-      ))}
+    <Box>
+      <Box m={60}>
+        <Box m={40}>
+          <Text
+            variant="gradient"
+            gradient={{ from: "indigo", to: "green", deg: 45 }}
+            sx={{ fontFamily: "Sono, sans-serif" }}
+            ta="center"
+            fz="xl"
+            fw={700}
+            style={{ margin: 0, padding: 0, fontSize: "100px" }}
+          >
+            Filito
+          </Text>
+        </Box>
+      </Box>
 
-      {error && <div>{error.message}</div>}
-    </div>
+      {!isConnected && (
+        <Center style={{ width: "100%", margin: "0 auto" }}>
+          {connectors.map((connector) => (
+            <Button
+              disabled={!connector?.ready}
+              key={connector?.id}
+              onClick={() => connect({ connector })}
+              size="xl"
+              variant="light"
+            >
+              {connector?.name}
+              {!connector?.ready && " (unsupported)"}
+              {isLoading &&
+                connector?.id === pendingConnector?.id &&
+                " (connecting)"}
+            </Button>
+          ))}
+
+          <Box>{error && <div>{error.message}</div>}</Box>
+        </Center>
+      )}
+
+      <Center style={{ width: "100%", margin: "0 auto" }}>
+        {chains.map((x) => (
+          <Button
+            disabled={!switchNetwork || x.id === chain?.id}
+            key={x.id}
+            onClick={() => switchNetwork?.(x.id)}
+            size="xl"
+            variant="light"
+          >
+            {x.name}
+            {isLoadingNtw && pendingChainId === x.id && " (switching)"}
+          </Button>
+        ))}
+
+        <Box>{errorNtw && errorNtw.message}</Box>
+      </Center>
+    </Box>
   );
 }

@@ -69,6 +69,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     withNormalizeCSS
     theme={{
       colorScheme: "dark",
+      fontFamily: "Sono, sans-serif",
+      fontFamilyMonospace: "Sono, monospace",
+      headings: { fontFamily: "Sono, sans-serif" },
     }}
   >
     <WagmiConfig client={client}>
