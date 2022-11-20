@@ -60,6 +60,7 @@ export default function Add() {
     const res = await IPFS(blob);
     setCid(res);
     setTimeout(() => {
+      console.log("CID", res);
       if (write) write();
       setLoading(false);
     }, 2000);
