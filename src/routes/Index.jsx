@@ -214,7 +214,7 @@ export default function Index() {
       </Box>
 
       {!isConnected && (
-        <Center style={{ width: "100%", margin: "0 auto" }}>
+        <Center style={{ width: "100%", margin: "10px auto" }}>
           {connectors.map((connector) => (
             <Button
               disabled={!connector?.ready}
@@ -235,7 +235,7 @@ export default function Index() {
         </Center>
       )}
 
-      <Center style={{ width: "100%", margin: "0 auto" }}>
+      <Center style={{ width: "100%", margin: "10px auto" }}>
         {chains.map((x) => (
           <Button
             disabled={!switchNetwork || x.id === chain?.id}
