@@ -88,7 +88,6 @@ export default function Index() {
 
   useEffect(() => {
     if (!data || !data.pages) return;
-    console.log(data);
     getAllData(data.pages)
       .then((response) => {
         const docs = [];
@@ -96,7 +95,6 @@ export default function Index() {
           docs.push(...r.filter((r) => !!r.alt));
         });
         miniSearch.removeAll();
-        console.log("docs", docs);
         miniSearch.addAll(docs);
       })
       .catch((e) => {
@@ -106,7 +104,6 @@ export default function Index() {
 
   useEffect(() => {
     let images = miniSearch.search(search);
-    console.log("images", search, images);
     setImages(images);
   }, [search]);
 
