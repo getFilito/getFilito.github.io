@@ -24,7 +24,7 @@ export default function Add() {
   const [url, setUrl] = useState("https://www.euronews.com/");
   const [images, setImages] = useState([]);
 
-  const [cid, setCid] = useState("");
+  const [cid, setCid] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -62,7 +62,7 @@ export default function Add() {
     setTimeout(() => {
       if (write) write();
       setLoading(false);
-    }, 1000);
+    }, 2000);
   }
 
   const filitoContractConfig = {
