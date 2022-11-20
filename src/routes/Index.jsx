@@ -46,7 +46,7 @@ export default function Index() {
   const [images, setImages] = useState([]);
 
   const filitoContractConfig = {
-    address: "0x293D3f976EF14b75DC4687AF25EC1B526bF68F60",
+    address: "0x66C5a0007b690855488c2Db94569F49B715c12CD",
     abi: abiFilito,
   };
 
